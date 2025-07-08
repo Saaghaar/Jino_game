@@ -42,14 +42,20 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame> {
     // Create character and position it
     animation = runAnimation;
 
-    final characterWidth = game.size.x / 9;
+    const double groundImageHeight = 1080; // the height of the ground picture
+    const double realGroundHeight = 80;   // the real ground height
+
+    final double groundRatio = realGroundHeight / groundImageHeight;
+    final groundHeight = game.size.y * groundRatio;
+
+    final characterWidth = (game.size.x / 9) * 1.8;
     final characterHeight = characterWidth; // assume the character square
-    final characterSize = Vector2(size.x / 10, size.x / 10);
-    final groundHeight = game.size.y * 0.145; // ground height is %14.5 of screen height
-    // final double groundHeight = 190;
+
+    size = Vector2(characterWidth, characterHeight);
+
     position = Vector2(
         game.size.x * 0.10 - characterWidth / 2,
-        game.size.y - groundHeight - size.y,
+        game.size.y - groundHeight - characterHeight,
     );
   }
 }
