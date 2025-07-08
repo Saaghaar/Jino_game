@@ -1,10 +1,12 @@
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame/game.dart';
 import 'package:flame/sprite.dart';
 import 'package:runner_test1/game/jino.dart';
+import 'package:flame/input.dart';
 
-class JinoGame extends FlameGame {
+class JinoGame extends FlameGame with PanDetector{
   late Jino _jino;
 
   @override
@@ -29,6 +31,14 @@ class JinoGame extends FlameGame {
 
     _jino = Jino();
     add(_jino);
+  }
+
+  // set jumping movement (when user swipes up)
+  @override
+  void onPanUpdate(DragUpdateInfo info) {
+    if (info.delta.global.y < -10) {
+      _jino.jump();
+    }
   }
 
 }
