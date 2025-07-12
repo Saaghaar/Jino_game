@@ -1,0 +1,86 @@
+import 'package:flame/components.dart';
+import 'package:flame/sprite.dart';
+import 'package:runner_test1/game/game.dart'; // importing the game file
+
+class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
+
+  late SpriteAnimation runAnimation;
+  final int type;
+
+  Enemy(this.type) :
+        super(
+        size: Vector2(128, 128), //set the initial size of the character
+      );
+
+  @override
+  Future<void> onLoad() async {
+    late SpriteAnimation runAnimation;
+
+    // load enemies animation
+    switch (type){
+      case 1:
+        final runImage = await game.images.load('Monster_Dude/Run.png');
+        final runSheet = SpriteSheet(
+        image: runImage,
+        srcSize: Vector2(32, 32),
+        );
+        runAnimation = runSheet.createAnimation(
+        row: 0, from: 0, to: 5, stepTime: 0.1);
+        break;
+
+      case 2:
+        final runImage = await game.images.load('Monster_Owlet/Run.png');
+        final runSheet = SpriteSheet(
+          image: runImage,
+          srcSize: Vector2(32, 32),
+        );
+        runAnimation = runSheet.createAnimation(
+            row: 0, from: 0, to: 5, stepTime: 0.1);
+        break;
+
+      case 3:
+        final runImage = await game.images.load('Monster_Pink/Run.png');
+        final runSheet = SpriteSheet(
+          image: runImage,
+          srcSize: Vector2(32, 32),
+        );
+        runAnimation = runSheet.createAnimation(
+            row: 0, from: 0, to: 5, stepTime: 0.1);
+        break;
+    }
+    // set animation
+    animation = runAnimation;
+
+    // enemy's size
+    size = Vector2(game.size.x /10 , game.size.x /10);  // اندازه مناسب
+
+    const groundImageHeight = 1080; // the height of the ground picture
+    const realGroundHeight = 80;// the real ground height
+
+    final characterWidth = (game.size.x / 9) * 1.8; // *1.8 for make the character bigger
+    final characterHeight = characterWidth; // assume the character square
+
+    final groundRatio = realGroundHeight / groundImageHeight;
+    final groundHeight = game.size.y * groundRatio;
+
+    // enemy's position
+    position = Vector2(
+      game.size.x + 50, // start from right outside
+      game.size.y - groundHeight - size.y - 35, // on the ground
+    );
+  }
+
+  @override
+  void update(double dt){
+    super.update(dt);
+
+    // start running from right side by stable speed
+    position.x -= 200 * dt;
+
+    // remove the enemy when it goes outside the screen
+    if (position.x + size.x < 0){
+      removeFromParent();
+    }
+  }
+
+}

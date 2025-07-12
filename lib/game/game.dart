@@ -2,16 +2,45 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame/game.dart';
-import 'package:flame/sprite.dart';
 import 'package:runner_test1/game/jino.dart';
 import 'package:flame/input.dart';
+import 'dart:math';
+import 'package:runner_test1/game/enemy.dart';
+
 
 class JinoGame extends FlameGame with PanDetector{
   late Jino _jino;
 
+  // variables for creating enemy
+  double spawnTimer = 0;
+  final Random random = Random();
+
+
+  void spawnEnemyWithRandomDelay() {
+    // random time 1 to 3 sec
+    final randomDelay = 1.0 + random.nextDouble() * 2.0;
+
+    add(
+      TimerComponent(
+        period: randomDelay,
+        repeat: false,
+        removeOnFinish: true,
+        onTick: () {
+          final type = 1 + random.nextInt(3);
+          add(Enemy(type));
+
+          // create new timer
+          spawnEnemyWithRandomDelay();
+        },
+      ),
+    );
+  }
+
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    spawnEnemyWithRandomDelay(); // starting random timer
 
     // Create background
     final parallax = await loadParallaxComponent(
@@ -40,5 +69,5 @@ class JinoGame extends FlameGame with PanDetector{
       _jino.jump();
     }
   }
-
+  
 }

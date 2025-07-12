@@ -54,9 +54,13 @@ dev_dependencies:
 flutter:
     assets:
 #    - assets/images/
-    - assets/images/idle.png
-    - assets/images/jump.png
-    - assets/images/run.png
+    - assets/images/Ducky/idle.png
+    - assets/images/Ducky/jump.png
+    - assets/images/Ducky/run.png
+
+    - assets/images/Monster_Dude/Run.png
+    - assets/images/Monster_Owlet/Run.png
+    - assets/images/Monster_Pink/Run.png
 
 #    - assets/images/parallax/
     - assets/images/parallax/layer_trees.png

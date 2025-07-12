@@ -24,7 +24,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     await super.onLoad();
 
     // Load idle animation
-    final idleImage = await game.images.load('idle.png');
+    final idleImage = await game.images.load('Ducky/idle.png');
     final idleSheet = SpriteSheet(
       image: idleImage,
       srcSize: Vector2(64, 64),
@@ -33,7 +33,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
         row: 0, from: 0, to: 3, stepTime: 0.1);
 
     // Load run animation
-    final runImage = await game.images.load('run.png');
+    final runImage = await game.images.load('Ducky/run.png');
     final runSheet = SpriteSheet(
       image: runImage,
       srcSize: Vector2(64, 64),
@@ -42,7 +42,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
         row: 0, from: 0, to: 3, stepTime: 0.1);
 
     // Load jump animation
-    final jumpImage = await game.images.load('jump.png');
+    final jumpImage = await game.images.load('Ducky/jump.png');
     final jumpSheet = SpriteSheet(
       image: jumpImage,
       srcSize: Vector2(64, 64),
@@ -88,11 +88,12 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   void update(double dt) {
     super.update(dt);
 
+    // Ducky's jumping conditions
     if (isJumping) {
       y += jumpSpeed * dt;
       jumpSpeed += gravity * dt;
 
-      // when it reach to the ground, stop jumping
+      // when Ducky reach to the ground, stop jumping
       if (y >= originalY) {
         y = originalY;
         isJumping = false;
