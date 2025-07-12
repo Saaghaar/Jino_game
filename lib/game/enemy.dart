@@ -79,6 +79,7 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
 
     // remove the enemy when it goes outside the screen
     if (position.x + size.x < 0){
+      game.score += 5; // add 5 score for passing each enemy
       removeFromParent();
     }
   }
