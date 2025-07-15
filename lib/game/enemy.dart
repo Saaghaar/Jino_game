@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame/game.dart';
 import 'package:runner_test1/game/game.dart'; // importing the game file
+
 
 class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
 
@@ -57,9 +59,6 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
     const groundImageHeight = 1080; // the height of the ground picture
     const realGroundHeight = 80;// the real ground height
 
-    final characterWidth = (game.size.x / 9) * 1.8; // *1.8 for make the character bigger
-    final characterHeight = characterWidth; // assume the character square
-
     final groundRatio = realGroundHeight / groundImageHeight;
     final groundHeight = game.size.y * groundRatio;
 
@@ -75,12 +74,13 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
     super.update(dt);
 
     // start running from right side by stable speed
-    position.x -= 200 * dt;
+    position.x -=  game.difficultyManager.baseSpeed * dt;
 
     // remove the enemy when it goes outside the screen
     if (position.x + size.x < 0){
-      game.score += 5; // add 5 score for passing each enemy
+      game.scoreManager.increaseScore(5); // add 5 score for passing each enemy
       removeFromParent();
+
     }
   }
 
