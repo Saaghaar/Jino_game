@@ -19,6 +19,7 @@ class PauseMenuWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // pause menu text
             const Text(
               'Game Paused',
               style: TextStyle(
@@ -27,6 +28,8 @@ class PauseMenuWidget extends StatelessWidget {
                   fontFamily: 'Feast Of Flesh',
               ),
             ),
+
+            // resume button
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -34,6 +37,7 @@ class PauseMenuWidget extends StatelessWidget {
                 game.overlays.add('PauseButton');
                 game.resumeEngine();
               },
+              // resume button style
               child: const Text('Resume',
                 style: TextStyle(
                     fontFamily: 'Feast Of Flesh',
@@ -43,14 +47,15 @@ class PauseMenuWidget extends StatelessWidget {
               ),
             ),
 
+            // restart button
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 game.overlays.remove('PauseMenu');
                 game.overlays.add('PauseButton');
-                // game.reset(); // باید متد reset توی JinoGame تعریف بشه
+                game.reset();
               },
-
+              // restart button style
               child: const Text('Restart',
                 style: TextStyle(
                     fontFamily: 'Feast Of Flesh',

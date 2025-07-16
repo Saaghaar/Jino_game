@@ -28,4 +28,10 @@ class DifficultyManager extends Component {
     return (2.0 - score * 0.015).clamp(1, 2.5);
   }
 
+  void reset(){
+    baseSpeed = 200;
+    backgroundSpeed = 20;
+    score = 0;
+  }
+
 }

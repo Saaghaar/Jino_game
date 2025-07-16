@@ -5,12 +5,10 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'dart:math'; // for random func
 
-
 import 'package:runner_test1/game/jino.dart';
 import 'package:runner_test1/game/enemy.dart';
 import 'package:runner_test1/game/score_manager.dart';
 import 'package:runner_test1/game/difficulty_manager.dart';
-
 
 class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
   late Jino _jino;
@@ -128,6 +126,28 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
     // Apply background speed
     _parallax.parallax?.baseVelocity = Vector2(backgroundSpeed, 0);
+  }
+
+  void reset() {
+    // Remove all game components(such as enemies and points)
+    removeAll(children.toList());
+
+    // reset score
+    scoreManager = ScoreManager(size);
+    add(scoreManager);
+
+    // reset speed values
+    difficultyManager.reset();
+
+    // add background again
+    add(_parallax);
+
+    _jino = Jino();
+    add(_jino);
+
+    spawnEnemyWithRandomDelay();
+
+    resumeEngine();
   }
 
 }
