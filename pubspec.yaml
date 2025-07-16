@@ -57,6 +57,7 @@ flutter:
     - assets/images/Ducky/idle.png
     - assets/images/Ducky/jump.png
     - assets/images/Ducky/run.png
+    - assets/images/Ducky/hit.png
 
     - assets/images/Monster_Dude/Run.png
     - assets/images/Monster_Owlet/Run.png

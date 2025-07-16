@@ -5,13 +5,14 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'dart:math'; // for random func
 
+
 import 'package:runner_test1/game/jino.dart';
 import 'package:runner_test1/game/enemy.dart';
 import 'package:runner_test1/game/score_manager.dart';
 import 'package:runner_test1/game/difficulty_manager.dart';
 
 
-class JinoGame extends FlameGame with PanDetector{
+class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
   late Jino _jino;
 
   // variables for creating enemy

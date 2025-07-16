@@ -1,9 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame/collisions.dart';
+
 import 'package:runner_test1/game/game.dart'; // importing the game file
 
 
-class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
+class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, CollisionCallbacks {
 
   late SpriteAnimation runAnimation;
   final int type;
@@ -69,6 +71,13 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
       game.size.x + 50, // start from right outside
       game.size.y - groundHeight - size.y - 35, // on the ground
     );
+
+    // add hitBox to the enemy sprite sheet
+    add(RectangleHitbox.relative(
+      Vector2(0.65, 0.75), // % of w & h relative to the size of the enemy
+      parentSize: size,
+      position: Vector2(6, 8), // position the hitBox in the sprite sheet
+    ));
 
 
   }
