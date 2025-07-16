@@ -7,7 +7,7 @@ class ScoreManager extends TextComponent {
   ScoreManager(Vector2 screenSize)
       : super(
     text: 'Score: 0',
-    position: Vector2(screenSize.x / 2, 20),
+    position: Vector2(screenSize.x / 2, 15),
     anchor: Anchor.topCenter,
     textRenderer: TextPaint(
       style: const TextStyle(

@@ -93,6 +93,9 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     // adding difficulty
     difficultyManager = DifficultyManager();
     add(difficultyManager);
+
+    // add pause button
+    overlays.add('PauseButton');
   }
 
   // set jumping movement (when user swipes up)

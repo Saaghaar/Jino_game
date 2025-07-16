@@ -2,7 +2,10 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
+
 import 'package:runner_test1/game/game.dart';
+import 'package:runner_test1/widget/pause_button_widget.dart';
+import 'package:runner_test1/widget/pause_menu_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,6 +13,17 @@ void main() {
   Flame.device.setLandscape();
   runApp(
 MyApp()
+  );
+
+  runApp(
+    GameWidget(
+      game: JinoGame(),
+      overlayBuilderMap: {
+        'PauseButton': (context, game) => PauseButtonWidget(game: game as JinoGame),
+        'PauseMenu': (context, game) => PauseMenuWidget(game: game as JinoGame),
+      },
+    ),
+
   );
 }
 
