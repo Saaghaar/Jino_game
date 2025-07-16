@@ -10,8 +10,8 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
   // variables for jumping
   bool isJumping = false;
-  double jumpSpeed = -500;
-  double gravity = 1000;
+  double jumpSpeed = -700;
+  double gravity = 1500;
   late double originalY;
 
   Jino() :
@@ -97,7 +97,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
       if (y >= originalY) {
         y = originalY;
         isJumping = false;
-        jumpSpeed = -300;
+        jumpSpeed = -700;
         animation = runAnimation;
       }
     }

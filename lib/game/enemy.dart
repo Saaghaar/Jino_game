@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
-import 'package:flame/game.dart';
 import 'package:runner_test1/game/game.dart'; // importing the game file
 
 
@@ -54,7 +53,7 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
     animation = runAnimation;
 
     // enemy's size
-    size = Vector2(game.size.x /10 , game.size.x /10);  // اندازه مناسب
+    size = Vector2(game.size.x /10 , game.size.x /10);
 
     const groundImageHeight = 1080; // the height of the ground picture
     const realGroundHeight = 80;// the real ground height
