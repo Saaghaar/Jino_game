@@ -11,9 +11,10 @@ class ScoreManager extends TextComponent {
     anchor: Anchor.topCenter,
     textRenderer: TextPaint(
       style: const TextStyle(
-        fontSize: 24,
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
+        fontSize: 28,
+        color: const Color(0xFF4C041B),
+        // fontWeight: FontWeight.bold,
+        fontFamily: 'Feast Of Flesh',
       ),
     ),
     priority: 100,

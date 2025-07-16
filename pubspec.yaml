@@ -71,6 +71,12 @@ flutter:
     - assets/images/parallax/layer_clouds.png
     - assets/images/parallax/layer_cake.png
 
+
+    fonts:
+     - family: Feast Of Flesh
+       fonts:
+         - asset: assets/fonts/Feast Of Flesh.ttf
+
 #    - assets/audio/
     # - assets/tiles/level.tmx
 
