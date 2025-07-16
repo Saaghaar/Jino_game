@@ -25,8 +25,9 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
         image: runImage,
         srcSize: Vector2(32, 32),
         );
+        final step = 0.1 / game.difficultyManager.speedFactor;
         runAnimation = runSheet.createAnimation(
-        row: 0, from: 0, to: 5, stepTime: 0.1);
+        row: 0, from: 0, to: 5, stepTime: step);
         break;
 
       case 2:
@@ -35,8 +36,9 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
           image: runImage,
           srcSize: Vector2(32, 32),
         );
+        final step = 0.1 / game.difficultyManager.speedFactor;
         runAnimation = runSheet.createAnimation(
-            row: 0, from: 0, to: 5, stepTime: 0.1);
+            row: 0, from: 0, to: 5, stepTime: step);
         break;
 
       case 3:
@@ -45,8 +47,9 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
           image: runImage,
           srcSize: Vector2(32, 32),
         );
+        final step = 0.1 / game.difficultyManager.speedFactor;
         runAnimation = runSheet.createAnimation(
-            row: 0, from: 0, to: 5, stepTime: 0.1);
+            row: 0, from: 0, to: 5, stepTime: step);
         break;
     }
     // set animation
@@ -66,6 +69,8 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>{
       game.size.x + 50, // start from right outside
       game.size.y - groundHeight - size.y - 35, // on the ground
     );
+
+
   }
 
   @override

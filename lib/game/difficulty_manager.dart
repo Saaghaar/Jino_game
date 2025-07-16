@@ -6,6 +6,9 @@ class DifficultyManager extends Component {
   double backgroundSpeed = 20;    // Initial speed of background
   double score = 0;
 
+  // enemy's animation speed based on score (100 score == +1 speed animation)
+  double get speedFactor => (1.0 + (score / 100)).clamp(1.0, 2.5);
+
   DifficultyManager();
 
   void updateDifficulty(double currentScore) {
