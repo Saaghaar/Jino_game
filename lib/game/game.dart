@@ -24,6 +24,24 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
   late ScoreManager scoreManager;
   double timeSinceLastScore = 0;
 
+  // number of hearts
+  int health = 3;
+
+  void decreaseHealth() {
+    if (health > 0) {
+      health--;
+
+      // if (health == 0) {
+      //   // اینجا کاراکتر بمیره یا گیم اور شه
+      // }
+
+      // این باعث میشه ویجت آپدیت بشه
+      overlays.remove('HeartDisplay');
+      overlays.add('HeartDisplay');
+    }
+  }
+
+
   // variables for manage difficulty
   late DifficultyManager difficultyManager;
 
@@ -85,7 +103,10 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     scoreManager = ScoreManager(size);
     add(scoreManager);
 
-    _jino = Jino();
+    _jino = Jino(  onHit: () {
+      decreaseHealth(); // یا هر چیزی که قلب رو کم می‌کنه
+    },)
+    ..gameRef = this;
     add(_jino);
 
     // adding difficulty
@@ -94,6 +115,9 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
     // add pause button
     overlays.add('PauseButton');
+
+    // add hearts
+    overlays.add('HeartDisplay');
   }
 
   // set jumping movement (when user swipes up)
@@ -132,6 +156,11 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     // Remove all game components(such as enemies and points)
     removeAll(children.toList());
 
+    // ✅ حذف کاراکتر قبلی (مهم!)
+    if (_jino != null) {
+      remove(_jino);
+    }
+
     // reset score
     scoreManager = ScoreManager(size);
     add(scoreManager);
@@ -139,10 +168,15 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     // reset speed values
     difficultyManager.reset();
 
+    // reset health
+    health = 3;
+
     // add background again
     add(_parallax);
 
-    _jino = Jino();
+    _jino.removeFromParent();
+    _jino = Jino(onHit: () {decreaseHealth();},); // یا هر چیزی که قلب رو کم می‌کنه
+    // _jino.resetState();
     add(_jino);
 
     spawnEnemyWithRandomDelay();

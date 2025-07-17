@@ -74,9 +74,9 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
 
     // add hitBox to the enemy sprite sheet
     add(RectangleHitbox.relative(
-      Vector2(0.65, 0.75), // % of w & h relative to the size of the enemy
+      Vector2(0.5, 0.5), // % of w & h relative to the size of the enemy
       parentSize: size,
-      position: Vector2(6, 8), // position the hitBox in the sprite sheet
+      position: Vector2(9, 12), // position the hitBox in the sprite sheet
     ));
 
 

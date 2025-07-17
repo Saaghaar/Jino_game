@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
+import 'package:flutter/foundation.dart'; // for call back
 
 import 'package:runner_test1/game/game.dart'; // importing the game file
 import 'package:runner_test1/game/enemy.dart';
@@ -14,17 +15,25 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
   // variables for jumping
   bool isJumping = false;
-  double jumpSpeed = -700;
+  double jumpSpeed = -600;
   double gravity = 1500;
   late double originalY;
 
   // variables for being hit
   bool isHit = false;
+  double hitCooldown = 0; // مدت زمان باقی‌مانده تا اجازه برخورد بعدی
+  final double hitDelay = 0.5; // ثانیه (تایمر برخورد)
 
-  Jino() :
-        super(
-        size: Vector2(128, 128), //set the initial size of the character
-        );
+  // access to JinoGame class
+  late JinoGame gameRef;
+
+  // number of hearts
+  int health = 3;
+  final VoidCallback onHit;
+
+  Jino({
+    required this.onHit,
+  }) : super(size: Vector2(128, 128)); //set the initial size of the character
 
   @override
   Future<void> onLoad() async {
@@ -88,9 +97,9 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
     // add hitBox to the character sprite sheet
     add(RectangleHitbox.relative(
-      Vector2(0.36, 0.28), // % of w & h relative to the size of the character
+      Vector2(0.31, 0.19), // % of w & h relative to the size of the character
       parentSize: size,
-      position: Vector2(18, 30), // position the hitBox in the sprite sheet
+      position: Vector2(20, 34), // position the hitBox in the sprite sheet
     ));
 
     originalY = y; // Initial value for returning to ground
@@ -101,7 +110,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   void jump() {
     if (!isJumping) {
       isJumping = true;
-      jumpSpeed = -500;
+      jumpSpeed = -600;
       animation = jumpAnimation;
     }
   }
@@ -112,6 +121,13 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     // when got hit after 0.5 sec start running
     Future.delayed(const Duration(milliseconds: 500), () {
       animation = runAnimation;
+
+      // 8اتخه
+      if (isHit) return;
+      isHit = true;
+      gameRef.decreaseHealth();
+
+      onHit(); // call back for hit
     });
   }
 
@@ -122,14 +138,28 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     // Ducky's jumping conditions
     if (isJumping) {
       y += jumpSpeed * dt;
-      jumpSpeed += gravity * dt;
+
+      // اگر در حال بالا رفتن است (سرعت منفی است)
+      if (jumpSpeed < 0) {
+        jumpSpeed += gravity * dt; // گرانش معمولی
+      } else {
+        jumpSpeed += gravity * 2 * dt; // گرانش بیشتر برای سقوط سریع
+      }
 
       // when Ducky reach to the ground, stop jumping
       if (y >= originalY) {
         y = originalY;
         isJumping = false;
-        jumpSpeed = -700;
+        jumpSpeed = -600;
         animation = runAnimation;
+      }
+    }
+    // غللهه
+    if (hitCooldown > 0) {
+      hitCooldown -= dt;
+      if (hitCooldown <= 0) {
+        isHit = false;
+        hitCooldown = 0;
       }
     }
   }
@@ -141,12 +171,10 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     // add hitting action
     if (other is Enemy && !isHit) {
       isHit = true;
-      hit();
+      hitCooldown = hitDelay;
+      // اجرای انیمیشن یا کاهش جون:
+      onHit.call();
 
-      // reset isHit after 0.25 second
-      Future.delayed(Duration(milliseconds: 250), () {
-        isHit = false;
-      });
     }
   }
 
