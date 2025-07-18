@@ -71,7 +71,7 @@ class GameOverMenu extends StatelessWidget {
                   // main menu button
                   ElevatedButton(
                     onPressed: () {
-                      game.overlays.remove('PauseMenu');
+                      game.overlays.remove('GameOverMenu');
                       game.reset();
                       game.pauseEngine();
                       game.overlays.add('MainMenu');
