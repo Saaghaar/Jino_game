@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,9 +55,18 @@ dev_dependencies:
 flutter:
     assets:
 #    - assets/images/
-    - assets/images/idle.png
-    - assets/images/jump.png
-    - assets/images/run.png
+    - assets/images/Ducky/idle.png
+    - assets/images/Ducky/jump.png
+    - assets/images/Ducky/run.png
+    - assets/images/Ducky/hit.png
+
+    - assets/images/Monster_Dude/Run.png
+    - assets/images/Monster_Owlet/Run.png
+    - assets/images/Monster_Pink/Run.png
+
+    - assets/icons/pause.svg
+    - assets/icons/heart_broken.svg
+    - assets/icons/heart_full.svg
 
 #    - assets/images/parallax/
     - assets/images/parallax/layer_trees.png
@@ -65,6 +75,12 @@ flutter:
     - assets/images/parallax/layer_ground.png
     - assets/images/parallax/layer_clouds.png
     - assets/images/parallax/layer_cake.png
+
+
+    fonts:
+     - family: Feast Of Flesh
+       fonts:
+         - asset: assets/fonts/Feast Of Flesh.ttf
 
 #    - assets/audio/
     # - assets/tiles/level.tmx
