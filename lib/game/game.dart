@@ -74,10 +74,10 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     _parallax = await loadParallaxComponent(
     [
       ParallaxImageData('parallax/layer_sky.png'),
-      ParallaxImageData('parallax/layer_cake.png'),
       ParallaxImageData('parallax/layer_clouds.png'),
       ParallaxImageData('parallax/layer_rocks.png'),
       ParallaxImageData('parallax/layer_trees.png'),
+      ParallaxImageData('parallax/layer_cake.png'),
       ParallaxImageData('parallax/layer_ground.png'),
     ],
       baseVelocity: Vector2(20, 0), // movement speed
