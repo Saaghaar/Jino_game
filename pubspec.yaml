@@ -76,6 +76,7 @@ flutter:
     - assets/images/parallax/layer_ground.png
     - assets/images/parallax/layer_clouds.png
     - assets/images/parallax/layer_cake.png
+    - assets/images/parallax/main_menu.png
 
 
     fonts:

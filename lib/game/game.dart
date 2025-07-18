@@ -65,6 +65,8 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
     await super.onLoad();
 
+    pauseEngine(); //it is paused till pressed the play button
+
     // add enemy
     spawnEnemyWithRandomDelay();
 
@@ -97,12 +99,6 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     // adding difficulty
     difficultyManager = DifficultyManager();
     add(difficultyManager);
-
-    // add pause button
-    overlays.add('PauseButton');
-
-    // add hearts
-    overlays.add('HeartDisplay');
   }
 
   // set jumping movement (when user swipes up)
