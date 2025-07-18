@@ -21,8 +21,8 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
   // variables for being hit
   bool isHit = false;
-  double hitCooldown = 0; // مدت زمان باقی‌مانده تا اجازه برخورد بعدی
-  final double hitDelay = 0.5; // ثانیه (تایمر برخورد)
+  double hitCooldown = 0; // time remaining until next collision permission
+  final double hitDelay = 0.5; // collision timer
 
   // access to JinoGame class
   late JinoGame gameRef;
@@ -121,13 +121,6 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     // when got hit after 0.5 sec start running
     Future.delayed(const Duration(milliseconds: 500), () {
       animation = runAnimation;
-
-      // 8اتخه
-      if (isHit) return;
-      isHit = true;
-      gameRef.decreaseHealth();
-
-      onHit(); // call back for hit
     });
   }
 
@@ -139,11 +132,11 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     if (isJumping) {
       y += jumpSpeed * dt;
 
-      // اگر در حال بالا رفتن است (سرعت منفی است)
+      // if character is jumping
       if (jumpSpeed < 0) {
-        jumpSpeed += gravity * dt; // گرانش معمولی
+        jumpSpeed += gravity * dt; // normal gravity
       } else {
-        jumpSpeed += gravity * 2 * dt; // گرانش بیشتر برای سقوط سریع
+        jumpSpeed += gravity * 2 * dt; // more gravity for faster falls
       }
 
       // when Ducky reach to the ground, stop jumping
@@ -154,11 +147,16 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
         animation = runAnimation;
       }
     }
-    // غللهه
+
+    // if hit cooldown is still active
     if (hitCooldown > 0) {
+      // decrease the cooldown timer by dt time
       hitCooldown -= dt;
+      // if cooldown has finished
       if (hitCooldown <= 0) {
+        // allow new hits by resetting isHit
         isHit = false;
+        // ensure cooldown doesn't go negative
         hitCooldown = 0;
       }
     }
@@ -172,8 +170,11 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     if (other is Enemy && !isHit) {
       isHit = true;
       hitCooldown = hitDelay;
-      // اجرای انیمیشن یا کاهش جون:
+
+      // decrease heart after hit
       onHit.call();
+      // play hit animation
+      hit();
 
     }
   }

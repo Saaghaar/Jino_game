@@ -35,7 +35,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
       //   // اینجا کاراکتر بمیره یا گیم اور شه
       // }
 
-      // این باعث میشه ویجت آپدیت بشه
+      // updating the widgets
       overlays.remove('HeartDisplay');
       overlays.add('HeartDisplay');
     }
@@ -104,7 +104,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     add(scoreManager);
 
     _jino = Jino(  onHit: () {
-      decreaseHealth(); // یا هر چیزی که قلب رو کم می‌کنه
+      decreaseHealth();
     },)
     ..gameRef = this;
     add(_jino);
@@ -156,7 +156,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     // Remove all game components(such as enemies and points)
     removeAll(children.toList());
 
-    // ✅ حذف کاراکتر قبلی (مهم!)
+    // Delete previous character
     if (_jino != null) {
       remove(_jino);
     }
@@ -175,8 +175,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     add(_parallax);
 
     _jino.removeFromParent();
-    _jino = Jino(onHit: () {decreaseHealth();},); // یا هر چیزی که قلب رو کم می‌کنه
-    // _jino.resetState();
+    _jino = Jino(onHit: () {decreaseHealth();},);
     add(_jino);
 
     spawnEnemyWithRandomDelay();

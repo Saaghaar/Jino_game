@@ -21,7 +21,7 @@ class HeartDisplayWidget extends StatelessWidget {
             width: 32,
             height: 32,
             colorFilter: ColorFilter.mode(
-              i < currentHealth ? Color(0xFFAA0000) : Color(0xFF4A4A4A), // قرمز یا خاکستری
+              i < currentHealth ? Color(0xFFAA0000) : Color(0xFF4A4A4A), // red - gray
               BlendMode.srcIn,)
           ),
         ),
