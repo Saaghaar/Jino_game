@@ -27,21 +27,6 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
   // number of hearts
   int health = 3;
 
-  void decreaseHealth() {
-    if (health > 0) {
-      health--;
-
-      // if (health == 0) {
-      //   // اینجا کاراکتر بمیره یا گیم اور شه
-      // }
-
-      // updating the widgets
-      overlays.remove('HeartDisplay');
-      overlays.add('HeartDisplay');
-    }
-  }
-
-
   // variables for manage difficulty
   late DifficultyManager difficultyManager;
 
@@ -181,6 +166,28 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     spawnEnemyWithRandomDelay();
 
     resumeEngine();
+  }
+
+  void decreaseHealth() {
+    if (health > 0) {
+      health--;
+
+      // if the character die
+      if (health <= 0) {
+        _jino.playDeathAnimation();
+        gameOver();
+      }
+
+      // updating the widgets
+      overlays.remove('HeartDisplay');
+      overlays.add('HeartDisplay');
+    }
+  }
+
+  void gameOver (){
+    scoreManager.finalScores(); // save final score
+    pauseEngine(); // pause the game
+    overlays.add('GameOverMenu');
   }
 
 }

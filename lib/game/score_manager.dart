@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class ScoreManager extends TextComponent {
   int _score = 0;
+  int finalScore = 0;
 
   ScoreManager(Vector2 screenSize)
       : super(
@@ -28,7 +29,12 @@ class ScoreManager extends TextComponent {
   int get score => _score;
 
   void reset() {
+    // finalScore = _score;
     _score = 0;
     text = 'Score: 0';
+  }
+
+  void finalScores(){
+    finalScore = _score;
   }
 }

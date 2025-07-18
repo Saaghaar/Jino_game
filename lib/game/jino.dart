@@ -12,6 +12,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   late SpriteAnimation runAnimation;
   late SpriteAnimation jumpAnimation;
   late SpriteAnimation hitAnimation;
+  late SpriteAnimation deathAnimation;
 
   // variables for jumping
   bool isJumping = false;
@@ -75,6 +76,16 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     hitAnimation = hitSheet.createAnimation(
         row: 0, from: 0, to: 1, stepTime: 0.1);
 
+    // Load death animation
+    final deathImage = await game.images.load('Ducky/death.png');
+    final deathSheet = SpriteSheet(
+        image: deathImage,
+        srcSize: Vector2(64, 64),
+    );
+    deathAnimation = deathSheet.createAnimation(
+        row: 0, stepTime: 0.1);
+
+
 
     // Create character and position it
     animation = runAnimation;
@@ -103,25 +114,6 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     ));
 
     originalY = y; // Initial value for returning to ground
-  }
-
-
-  // player movement: Jumping
-  void jump() {
-    if (!isJumping) {
-      isJumping = true;
-      jumpSpeed = -600;
-      animation = jumpAnimation;
-    }
-  }
-
-  void hit() {
-    animation = hitAnimation;
-
-    // when got hit after 0.5 sec start running
-    Future.delayed(const Duration(milliseconds: 500), () {
-      animation = runAnimation;
-    });
   }
 
   @override
@@ -177,6 +169,32 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
       hit();
 
     }
+  }
+
+  // player movement: Jumping
+  void jump() {
+    if (!isJumping) {
+      isJumping = true;
+      jumpSpeed = -600;
+      animation = jumpAnimation;
+    }
+  }
+
+  // hit func
+  void hit() {
+    if (game.health > 0) {
+      animation = hitAnimation;
+
+      // when got hit after 0.5 sec start running
+      Future.delayed(const Duration(milliseconds: 500), () {
+        animation = runAnimation;
+      });
+    }
+  }
+
+  // death func
+  void playDeathAnimation() {
+    animation = deathAnimation;
   }
 
 }
