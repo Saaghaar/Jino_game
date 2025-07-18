@@ -8,7 +8,7 @@ import 'package:runner_test1/widget/pause_button_widget.dart';
 import 'package:runner_test1/widget/pause_menu_widget.dart';
 import 'package:runner_test1/widget/heart_display_widget.dart';
 import 'package:runner_test1/widget/gameOver_menu_widget.dart';
-import 'package:runner_test1/widget/main_menu.dart';
+import 'package:runner_test1/screens/main_menu.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

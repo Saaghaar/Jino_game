@@ -15,11 +15,12 @@ class GameOverMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: const EdgeInsets.fromLTRB(50, 24, 50, 24),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         decoration: BoxDecoration(
           color: Color(0x805A0043),
           borderRadius: BorderRadius.circular(16),
         ),
+        constraints: const BoxConstraints(maxWidth: 400), // set the max width
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -45,21 +46,47 @@ class GameOverMenu extends StatelessWidget {
               ),
             ),
 
-            // restart button
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                game.overlays.remove('GameOverMenu');
-                game.reset();
-              },
-              child: const Text('Restart',
-                style: TextStyle(
-                  fontFamily: 'Feast Of Flesh',
-                  color: Color(0xFF4C041B),
-                  fontSize: 25,
-                ),
-              ),
-            ),
+            const SizedBox(height: 24),
+
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center, // put the buttons in center
+                children: [
+                  // restart button
+                  ElevatedButton(
+                    onPressed: () {
+                      game.overlays.remove('GameOverMenu');
+                      game.reset();
+                    },
+                    child: const Text('Restart',
+                      style: TextStyle(
+                        fontFamily: 'Feast Of Flesh',
+                        color: Color(0xFF4C041B),
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 20),
+
+                  // main menu button
+                  ElevatedButton(
+                    onPressed: () {
+                      game.overlays.remove('PauseMenu');
+                      game.reset();
+                      game.pauseEngine();
+                      game.overlays.add('MainMenu');
+                    },
+                    // restart button style
+                    child: const Text('Main Menu',
+                      style: TextStyle(
+                        fontFamily: 'Feast Of Flesh',
+                        color: Color(0xFF4C041B),
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                ]
+            )
           ],
         ),
       ),

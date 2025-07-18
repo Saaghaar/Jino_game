@@ -64,6 +64,26 @@ class PauseMenuWidget extends StatelessWidget {
                 ),
               ),
             ),
+
+            // main menu button
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                game.overlays.remove('PauseMenu');
+                game.reset();
+                game.pauseEngine();
+                game.overlays.add('MainMenu');
+              },
+              // restart button style
+              child: const Text('Main Menu',
+                style: TextStyle(
+                  fontFamily: 'Feast Of Flesh',
+                  color: Color(0xFF4C041B),
+                  fontSize: 25,
+                ),
+              ),
+            ),
+
           ],
         ),
       ),
