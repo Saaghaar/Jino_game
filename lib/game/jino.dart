@@ -3,9 +3,11 @@ import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 import 'package:flutter/foundation.dart'; // for call back
+import 'package:flame_audio/flame_audio.dart'; // for sound effects
 
 import 'package:runner_test1/game/game.dart'; // importing the game file
 import 'package:runner_test1/game/enemy.dart';
+
 
 class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, TapCallbacks, CollisionCallbacks{
 
@@ -177,6 +179,9 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
       isJumping = true;
       jumpSpeed = -600;
       animation = jumpAnimation;
+
+      // jump sound effect
+      FlameAudio.play('jump.wav');
     }
   }
 
@@ -184,6 +189,9 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   void hit() {
     if (game.health > 0) {
       animation = hitAnimation;
+
+      // hit sound effect
+      FlameAudio.play('hit.wav');
 
       // when got hit after 0.5 sec start running
       Future.delayed(const Duration(milliseconds: 500), () {
