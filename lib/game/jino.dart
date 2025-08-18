@@ -15,6 +15,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   late SpriteAnimation jumpAnimation;
   late SpriteAnimation hitAnimation;
   late SpriteAnimation deathAnimation;
+  late SpriteAnimation fallAnimation;
 
   // variables for jumping
   bool isJumping = false;
@@ -26,6 +27,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   bool isHit = false;
   double hitCooldown = 0; // time remaining until next collision permission
   final double hitDelay = 0.5; // collision timer
+  bool shouldPlayHitOnLand = false; // flag for hitting on air
 
   // access to JinoGame class
   late JinoGame gameRef;
@@ -68,6 +70,15 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     );
     jumpAnimation = jumpSheet.createAnimation(
         row: 0, from: 0, to: 3, stepTime: 0.15);
+
+    // Load fall animation
+    final fallImage = await game.images.load('Ducky/fall.png');
+    final fallSheet = SpriteSheet(
+      image: fallImage,
+      srcSize: Vector2(64, 64),
+    );
+    fallAnimation = fallSheet.createAnimation(
+        row: 0, stepTime: 0.15);
 
     // Load hit animation
     final hitImage = await game.images.load('Ducky/hit.png');
@@ -154,6 +165,17 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
         hitCooldown = 0;
       }
     }
+
+    // when hit on the air play hit animation after reach to the ground
+    if (y >= originalY && shouldPlayHitOnLand) {
+      animation = hitAnimation;
+      shouldPlayHitOnLand = false;
+
+      // when got hit after 0.5 sec start running
+      Future.delayed(const Duration(milliseconds: 500), () {
+        animation = runAnimation;
+      });
+    }
   }
 
   @override
@@ -167,9 +189,9 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
       // decrease heart after hit
       onHit.call();
+
       // play hit animation
       hit();
-
     }
   }
 
@@ -180,27 +202,33 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
       jumpSpeed = -600;
       animation = jumpAnimation;
 
-      // jump sound effect
+      // jump sound effect 
       FlameAudio.play('jump.wav');
     }
   }
 
-  // hit func
+  // player movement: Hitting
   void hit() {
     if (game.health > 0) {
-      animation = hitAnimation;
 
       // hit sound effect
       FlameAudio.play('hit.wav');
 
-      // when got hit after 0.5 sec start running
-      Future.delayed(const Duration(milliseconds: 500), () {
-        animation = runAnimation;
-      });
+      // checking player is on the ground
+      if (y >= originalY) {
+        animation = hitAnimation;
+
+        // when got hit after 0.5 sec start running
+        Future.delayed(const Duration(milliseconds: 500), () {
+          animation = runAnimation;
+        });
+      } else {
+        shouldPlayHitOnLand = true;
+      }
     }
   }
 
-  // death func
+  // player movement: Death
   void playDeathAnimation() {
     animation = deathAnimation;
   }
