@@ -15,7 +15,6 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   late SpriteAnimation jumpAnimation;
   late SpriteAnimation hitAnimation;
   late SpriteAnimation deathAnimation;
-  late SpriteAnimation fallAnimation;
 
   // variables for jumping
   bool isJumping = false;
@@ -70,15 +69,6 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     );
     jumpAnimation = jumpSheet.createAnimation(
         row: 0, from: 0, to: 3, stepTime: 0.15);
-
-    // Load fall animation
-    final fallImage = await game.images.load('Ducky/fall.png');
-    final fallSheet = SpriteSheet(
-      image: fallImage,
-      srcSize: Vector2(64, 64),
-    );
-    fallAnimation = fallSheet.createAnimation(
-        row: 0, stepTime: 0.15);
 
     // Load hit animation
     final hitImage = await game.images.load('Ducky/hit.png');

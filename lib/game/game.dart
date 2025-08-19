@@ -62,7 +62,6 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
   @override
   Future<void> onLoad() async {
     difficultyManager = DifficultyManager();
-
     await super.onLoad();
 
     pauseEngine(); //it is paused till pressed the play button
@@ -97,7 +96,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     add(_jino);
 
     // adding difficulty
-    difficultyManager = DifficultyManager();
+
     add(difficultyManager);
   }
 
@@ -137,23 +136,15 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     // Remove all game components(such as enemies and points)
     removeAll(children.toList());
 
-    // Delete previous character
-    if (_jino != null) {
-      remove(_jino);
-    }
-
     // reset score
     scoreManager = ScoreManager(size);
     add(scoreManager);
 
-    // reset speed values
-    difficultyManager.reset();
+    difficultyManager.reset(); // reset speed values
 
-    // reset health
-    health = 3;
+    health = 3; // reset health
 
-    // add background again
-    add(_parallax);
+    add(_parallax); // add background again
 
     _jino.removeFromParent();
     _jino = Jino(onHit: () {decreaseHealth();},);
