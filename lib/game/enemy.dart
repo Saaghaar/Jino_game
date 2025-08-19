@@ -2,12 +2,18 @@ import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 
-import 'package:runner_test1/game/game.dart'; // importing the game file
+import 'package:runner_test1/game/game.dart';
+import 'package:runner_test1/game/jino.dart';
 
+enum EnemyState { run, attack}
 
 class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, CollisionCallbacks {
 
   late SpriteAnimation runAnimation;
+  late SpriteAnimation attackAnimation;
+
+  EnemyState state = EnemyState.run;
+
   final int type;
 
   Enemy(this.type) :
@@ -17,45 +23,26 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
 
   @override
   Future<void> onLoad() async {
-    late SpriteAnimation runAnimation;
 
-    // load enemies animation
-    switch (type){
-      case 1:
-        final runImage = await game.images.load('Monster_Dude/Run.png');
-        final runSheet = SpriteSheet(
-        image: runImage,
-        srcSize: Vector2(32, 32),
-        );
-        final step = 0.1 / game.difficultyManager.speedFactor;
-        runAnimation = runSheet.createAnimation(
-        row: 0, from: 0, to: 5, stepTime: step);
+    // inputs of _loadAnimation
+    switch (type) {
+      case 1: // first enemy: Monster Dude
+        runAnimation = await _loadAnimation('Monster_Dude/Run.png', 5);
+        attackAnimation = await _loadAnimation('Monster_Dude/Attack.png', 5);
         break;
 
-      case 2:
-        final runImage = await game.images.load('Monster_Owlet/Run.png');
-        final runSheet = SpriteSheet(
-          image: runImage,
-          srcSize: Vector2(32, 32),
-        );
-        final step = 0.1 / game.difficultyManager.speedFactor;
-        runAnimation = runSheet.createAnimation(
-            row: 0, from: 0, to: 5, stepTime: step);
+      case 2: // second enemy: Monster_Owlet
+        runAnimation = await _loadAnimation('Monster_Owlet/Run.png', 5);
+        attackAnimation = await _loadAnimation('Monster_Owlet/Attack.png', 5);
         break;
 
-      case 3:
-        final runImage = await game.images.load('Monster_Pink/Run.png');
-        final runSheet = SpriteSheet(
-          image: runImage,
-          srcSize: Vector2(32, 32),
-        );
-        final step = 0.1 / game.difficultyManager.speedFactor;
-        runAnimation = runSheet.createAnimation(
-            row: 0, from: 0, to: 5, stepTime: step);
+      case 3: // third enemy: Monster_Pink
+        runAnimation = await _loadAnimation('Monster_Pink/Run.png', 5);
+        attackAnimation = await _loadAnimation('Monster_Pink/Attack.png', 5);
         break;
     }
-    // set animation
-    animation = runAnimation;
+
+    animation = runAnimation; // initial animation
 
     // enemy's size
     size = Vector2(game.size.x /10 , game.size.x /10);
@@ -78,8 +65,31 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
       parentSize: size,
       position: Vector2(9, 12), // position the hitBox in the sprite sheet
     ));
+  }
 
+  // load spirit sheets
+  Future<SpriteAnimation> _loadAnimation(String path, int amount) async {
+    return await game.loadSpriteAnimation(
+      path, // path of the sprite sheet's file
+      SpriteAnimationData.sequenced(
+        amount: amount, // frame numbers
+        stepTime: 0.1,
+        textureSize: Vector2(32, 32),
+      ),
+    );
+  }
 
+  // set enemy state func
+  void setState(EnemyState newState) {
+    state = newState;
+    switch (state) {
+      case EnemyState.run:
+        animation = runAnimation;
+        break;
+      case EnemyState.attack:
+        animation = attackAnimation;
+        break;
+    }
   }
 
   @override
@@ -93,7 +103,26 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
     if (position.x + size.x < 0){
       game.scoreManager.increaseScore(5); // add 5 score for passing each enemy
       removeFromParent();
+    }
+  }
 
+  // check the hitting
+  @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints,
+      PositionComponent other,
+      ) {
+    super.onCollisionStart(intersectionPoints, other);
+
+    // if enemy hit ti Jino => animation = attack
+    if (other is Jino) {
+      setState(EnemyState.attack);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        // if enemy was in the screen yet => animation = run
+        if (isMounted) {
+          setState(EnemyState.run);
+        }
+      });
     }
   }
 

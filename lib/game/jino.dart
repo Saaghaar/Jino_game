@@ -169,7 +169,10 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+  void onCollision(
+      Set<Vector2> intersectionPoints,
+      PositionComponent other
+      ) {
     super.onCollision(intersectionPoints, other);
 
     // add hitting action

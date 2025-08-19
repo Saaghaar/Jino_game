@@ -55,7 +55,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
     assets:
-#    - assets/images/
+#    - assets/images/Ducky/
     - assets/images/Ducky/idle.gif
     - assets/images/Ducky/idle.png
     - assets/images/Ducky/jump.png
@@ -63,10 +63,19 @@ flutter:
     - assets/images/Ducky/hit.png
     - assets/images/Ducky/death.png
 
+#    - assets/images/Monster_Dude/
     - assets/images/Monster_Dude/Run.png
-    - assets/images/Monster_Owlet/Run.png
-    - assets/images/Monster_Pink/Run.png
+    - assets/images/Monster_Dude/Attack.png
 
+#    - assets/images/Monster_Owlet/
+    - assets/images/Monster_Owlet/Run.png
+    - assets/images/Monster_Owlet/Attack.png
+
+#    - assets/images/Monster_Pink/
+    - assets/images/Monster_Pink/Run.png
+    - assets/images/Monster_Pink/Attack.png
+
+#    - assets/icons/
     - assets/icons/pause.svg
     - assets/icons/heart_broken.svg
     - assets/icons/heart_full.svg
@@ -92,9 +101,6 @@ flutter:
      - family: Feast Of Flesh
        fonts:
          - asset: assets/fonts/Feast Of Flesh.ttf
-
-#    - assets/audio/
-    # - assets/tiles/level.tmx
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
