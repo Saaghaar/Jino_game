@@ -176,6 +176,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     FlameAudio.bgm.stop(); // stop bg music
     pauseEngine(); // pause the game
     overlays.add('GameOverMenu');
+    FlameAudio.play('game over.wav');
   }
 
 }
