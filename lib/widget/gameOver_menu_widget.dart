@@ -56,6 +56,7 @@ class GameOverMenu extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       game.overlays.remove('GameOverMenu');
+                      FlameAudio.play('select.wav');
                       FlameAudio.bgm.play('bgm.wav'); // restart bg music
                       game.reset();
                     },
@@ -77,6 +78,7 @@ class GameOverMenu extends StatelessWidget {
                       game.reset();
                       game.pauseEngine();
                       FlameAudio.bgm.stop(); // stop bg music
+                      FlameAudio.play('select.wav');
                       game.overlays.add('MainMenu');
                     },
                     // restart button style

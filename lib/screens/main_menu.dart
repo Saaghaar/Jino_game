@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class MainMenu extends StatelessWidget {
   final VoidCallback onPlay;
@@ -46,7 +47,10 @@ class MainMenu extends StatelessWidget {
                 // Play button
                 const SizedBox(height: 40),
                 ElevatedButton(
-                  onPressed: onPlay,
+                  onPressed: () {
+                    FlameAudio.play('select.wav');
+                    onPlay();
+                },
                   child: const Text('Play',
                     style: TextStyle(
                       fontFamily: 'Feast Of Flesh',

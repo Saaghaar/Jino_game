@@ -83,7 +83,7 @@ flutter:
 #    - assets/audio/
     - assets/audio/hit.wav
     - assets/audio/jump.wav
-    - assets/audio/Select.wav
+    - assets/audio/select.wav
     - assets/audio/bgm.wav
     - assets/audio/game over.wav
 

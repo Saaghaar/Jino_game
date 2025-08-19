@@ -36,6 +36,7 @@ class PauseMenuWidget extends StatelessWidget {
               onPressed: () {
                 game.overlays.remove('PauseMenu');
                 game.overlays.add('PauseButton');
+                FlameAudio.play('select.wav');
                 FlameAudio.bgm.resume(); // replay bg music
                 game.resumeEngine();
               },
@@ -56,6 +57,7 @@ class PauseMenuWidget extends StatelessWidget {
                 game.overlays.remove('PauseMenu');
                 game.overlays.add('PauseButton');
                 game.reset();
+                FlameAudio.play('select.wav');
                 FlameAudio.bgm.play('bgm.wav'); // restart bg music
               },
               // restart button style
@@ -76,9 +78,10 @@ class PauseMenuWidget extends StatelessWidget {
                 game.reset();
                 game.pauseEngine();
                 FlameAudio.bgm.stop(); // stop bg music
+                FlameAudio.play('select.wav');
                 game.overlays.add('MainMenu');
               },
-              // restart button style
+              // main menu button style
               child: const Text('Main Menu',
                 style: TextStyle(
                   fontFamily: 'Feast Of Flesh',
