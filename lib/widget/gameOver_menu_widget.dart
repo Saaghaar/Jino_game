@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:runner_test1/game/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class GameOverMenu extends StatelessWidget {
   final int score;
@@ -55,6 +56,7 @@ class GameOverMenu extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       game.overlays.remove('GameOverMenu');
+                      FlameAudio.bgm.play('bgm.wav'); // restart bg music
                       game.reset();
                     },
                     child: const Text('Restart',
@@ -74,6 +76,7 @@ class GameOverMenu extends StatelessWidget {
                       game.overlays.remove('GameOverMenu');
                       game.reset();
                       game.pauseEngine();
+                      FlameAudio.bgm.stop(); // stop bg music
                       game.overlays.add('MainMenu');
                     },
                     // restart button style

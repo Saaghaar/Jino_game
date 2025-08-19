@@ -84,6 +84,7 @@ flutter:
     - assets/audio/hit.wav
     - assets/audio/jump.wav
     - assets/audio/Select.wav
+    - assets/audio/bgm.wav
 
 
     fonts:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:runner_test1/game/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class PauseMenuWidget extends StatelessWidget {
   final JinoGame game;
@@ -35,6 +36,7 @@ class PauseMenuWidget extends StatelessWidget {
               onPressed: () {
                 game.overlays.remove('PauseMenu');
                 game.overlays.add('PauseButton');
+                FlameAudio.bgm.resume(); // replay bg music
                 game.resumeEngine();
               },
               // resume button style
@@ -54,6 +56,7 @@ class PauseMenuWidget extends StatelessWidget {
                 game.overlays.remove('PauseMenu');
                 game.overlays.add('PauseButton');
                 game.reset();
+                FlameAudio.bgm.play('bgm.wav'); // restart bg music
               },
               // restart button style
               child: const Text('Restart',
@@ -72,6 +75,7 @@ class PauseMenuWidget extends StatelessWidget {
                 game.overlays.remove('PauseMenu');
                 game.reset();
                 game.pauseEngine();
+                FlameAudio.bgm.stop(); // stop bg music
                 game.overlays.add('MainMenu');
               },
               // restart button style

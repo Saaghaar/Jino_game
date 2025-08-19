@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:runner_test1/game/game.dart';
 
@@ -18,6 +19,7 @@ class PauseButtonWidget extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               game.pauseEngine();
+              FlameAudio.bgm.pause(); // pause bg music
               game.overlays.remove('PauseButton');
               game.overlays.add('PauseMenu');
             },

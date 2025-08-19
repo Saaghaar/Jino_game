@@ -4,6 +4,7 @@ import 'package:flame/parallax.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'dart:math'; // for random func
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:runner_test1/game/jino.dart';
 import 'package:runner_test1/game/enemy.dart';
@@ -96,7 +97,6 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     add(_jino);
 
     // adding difficulty
-
     add(difficultyManager);
   }
 
@@ -173,6 +173,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
   void gameOver (){
     scoreManager.finalScores(); // save final score
+    FlameAudio.bgm.stop(); // stop bg music
     pauseEngine(); // pause the game
     overlays.add('GameOverMenu');
   }

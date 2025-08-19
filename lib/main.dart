@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:runner_test1/game/game.dart';
 import 'package:runner_test1/widget/pause_button_widget.dart';
@@ -29,6 +30,9 @@ MyApp()
               game.overlays.add('HeartDisplay'); // add after play
               game.overlays.add('PauseButton');  // add after play
               game.resumeEngine(); // start the game
+
+              FlameAudio.bgm.initialize();
+              FlameAudio.bgm.play('bgm.wav');
             },
             ),
 
