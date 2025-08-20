@@ -24,21 +24,24 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
   @override
   Future<void> onLoad() async {
 
+    // speed of enemies
+    final step = 0.1 / game.difficultyManager.speedFactor;
+
     // inputs of _loadAnimation
     switch (type) {
       case 1: // first enemy: Monster Dude
-        runAnimation = await _loadAnimation('Monster_Dude/Run.png', 5);
-        attackAnimation = await _loadAnimation('Monster_Dude/Attack.png', 5);
+        runAnimation = await _loadAnimation('Monster_Dude/Run.png', 5, step);
+        attackAnimation = await _loadAnimation('Monster_Dude/Attack.png', 5, 0.15);
         break;
 
       case 2: // second enemy: Monster_Owlet
-        runAnimation = await _loadAnimation('Monster_Owlet/Run.png', 5);
-        attackAnimation = await _loadAnimation('Monster_Owlet/Attack.png', 5);
+        runAnimation = await _loadAnimation('Monster_Owlet/Run.png', 5, step);
+        attackAnimation = await _loadAnimation('Monster_Owlet/Attack.png', 5, 0.15);
         break;
 
       case 3: // third enemy: Monster_Pink
-        runAnimation = await _loadAnimation('Monster_Pink/Run.png', 5);
-        attackAnimation = await _loadAnimation('Monster_Pink/Attack.png', 5);
+        runAnimation = await _loadAnimation('Monster_Pink/Run.png', 5, step);
+        attackAnimation = await _loadAnimation('Monster_Pink/Attack.png', 5, 0.2);
         break;
     }
 
@@ -68,12 +71,12 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
   }
 
   // load spirit sheets
-  Future<SpriteAnimation> _loadAnimation(String path, int amount) async {
+  Future<SpriteAnimation> _loadAnimation(String path, int amount, double speed) async {
     return await game.loadSpriteAnimation(
       path, // path of the sprite sheet's file
       SpriteAnimationData.sequenced(
         amount: amount, // frame numbers
-        stepTime: 0.1,
+        stepTime: speed,
         textureSize: Vector2(32, 32),
       ),
     );
@@ -117,7 +120,7 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
     // if enemy hit ti Jino => animation = attack
     if (other is Jino) {
       setState(EnemyState.attack);
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         // if enemy was in the screen yet => animation = run
         if (isMounted) {
           setState(EnemyState.run);
