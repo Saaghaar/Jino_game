@@ -8,6 +8,7 @@ import 'package:flame_audio/flame_audio.dart';
 
 import 'package:runner_test1/game/jino.dart';
 import 'package:runner_test1/game/enemy.dart';
+import 'package:runner_test1/game/flying_enemy.dart';
 import 'package:runner_test1/game/score_manager.dart';
 import 'package:runner_test1/game/difficulty_manager.dart';
 
@@ -49,8 +50,18 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
         period: finalDelay,
         repeat: false,
         onTick: () {
-          final type = 1 + random.nextInt(3);
-          add(Enemy(type));
+          // random number 0-1
+          final chance = random.nextInt(2);
+
+          if (chance == 0){
+            // create enemy
+            final type = 1 + random.nextInt(3);
+            add(Enemy(type));
+          } else {
+            // create flying enemy
+            final type = 1 + random.nextInt(2);
+            add(FlyingEnemy(type));
+          }
 
           // create new timer
           spawnEnemyWithRandomDelay();

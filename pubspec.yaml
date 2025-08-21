@@ -75,6 +75,12 @@ flutter:
     - assets/images/Monster_Pink/Run.png
     - assets/images/Monster_Pink/Attack.png
 
+#    - assets/images/Monster_Bat/
+    - assets/images/Monster_Bat/Flying.png
+
+#    - assets/images/Monster_Bird/
+    - assets/images/Monster_Bird/Flying.png
+
 #    - assets/icons/
     - assets/icons/pause.svg
     - assets/icons/heart_broken.svg
