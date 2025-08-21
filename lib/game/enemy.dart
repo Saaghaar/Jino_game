@@ -1,11 +1,10 @@
 import 'package:flame/components.dart';
-import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 
 import 'package:runner_test1/game/game.dart';
 import 'package:runner_test1/game/jino.dart';
 
-enum EnemyState { run, attack}
+enum EnemyState {run, attack}
 
 class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, CollisionCallbacks {
 
@@ -66,8 +65,9 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
     add(RectangleHitbox.relative(
       Vector2(0.5, 0.5), // % of w & h relative to the size of the enemy
       parentSize: size,
-      position: Vector2(9, 12), // position the hitBox in the sprite sheet
+      position: Vector2(15, 15), // position the hitBox in the sprite sheet
     ));
+    debugMode = true;
   }
 
   // load spirit sheets

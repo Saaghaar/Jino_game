@@ -4,6 +4,7 @@ import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 import 'package:flutter/foundation.dart'; // for call back
 import 'package:flame_audio/flame_audio.dart'; // for sound effects
+import 'package:runner_test1/game/flying_enemy.dart';
 
 import 'package:runner_test1/game/game.dart'; // importing the game file
 import 'package:runner_test1/game/enemy.dart';
@@ -37,7 +38,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
   Jino({
     required this.onHit,
-  }) : super(size: Vector2(128, 128)); //set the initial size of the character
+  }) : super(size: Vector2(64, 64)); //set the initial size of the character
 
   @override
   Future<void> onLoad() async {
@@ -99,7 +100,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     final double groundRatio = realGroundHeight / groundImageHeight;
     final groundHeight = game.size.y * groundRatio;
 
-    final characterWidth = (game.size.x / 9) * 1.8; // *1.8 for make the character bigger
+    final characterWidth = (game.size.x / 9) * 1.9; // *1.8 for make the character bigger
     final characterHeight = characterWidth; // assume the character square
 
     size = Vector2(characterWidth, characterHeight);
@@ -111,11 +112,11 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
     // add hitBox to the character sprite sheet
     add(RectangleHitbox.relative(
-      Vector2(0.31, 0.19), // % of w & h relative to the size of the character
+      Vector2(0.31, 0.24), // % of w & h relative to the size of the character
       parentSize: size,
-      position: Vector2(20, 34), // position the hitBox in the sprite sheet
+      position: Vector2(50, 80), // position the hitBox in the sprite sheet
     ));
-
+    debugMode = true;
     originalY = y; // Initial value for returning to ground
   }
 
@@ -176,7 +177,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     super.onCollision(intersectionPoints, other);
 
     // add hitting action
-    if (other is Enemy && !isHit) {
+    if ((other is Enemy || other is FlyingEnemy) && !isHit) {
       isHit = true;
       hitCooldown = hitDelay;
 
