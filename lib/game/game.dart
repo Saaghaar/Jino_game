@@ -132,7 +132,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
   @override
   void onPanEnd(DragEndInfo info) {
     if (currentAction == "crawl") {
-      _jino.run(); // فقط وقتی از خزیدن بیاد
+      _jino.run();
     }
     currentAction = "run";
   }

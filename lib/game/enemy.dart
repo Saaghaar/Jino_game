@@ -67,7 +67,6 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
       parentSize: size,
       position: Vector2(15, 15), // position the hitBox in the sprite sheet
     ));
-    debugMode = true;
   }
 
   // load spirit sheets

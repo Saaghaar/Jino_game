@@ -24,49 +24,26 @@ class FlyingEnemy extends SpriteAnimationComponent with HasGameReference<JinoGam
     switch (type) {
       case 1: // first enemy: Monster Bat
         flyAnimation = await _loadAnimation('Monster_Bat/Flying.png', 6, step, 46, 30);
+        // bat's hitBox
+        add( RectangleHitbox.relative(
+          Vector2(1.8, 0.80), // % of w & h relative to the size of the character
+          parentSize: size,
+          position: Vector2(0, 20), // position the hitBox in the sprite sheet
+        )
+        );
         break;
 
       case 2: // second enemy: Monster Bird
         flyAnimation = await _loadAnimation('Monster_Bird/Flying.png', 8, step, 32,32);
-        // hitBox: bird's beak
-        add(PolygonHitbox([       // (x,y)
-          Vector2(-0.37, -0.15), // (4,11)
-          Vector2(-0.28, -0.15), // (7,11)
-          Vector2(-0.28, 0.21), // (7,23)
-          Vector2(-0.37, 0.21), // (4,23)
-          Vector2(-0.46, 0.1), // (1,19)
-          Vector2(-0.46, -0.03), // (1,15)
-        ])..collisionType = CollisionType.passive
-          ..debugMode = true);
-
-        // hitBox: bird's body
-        add(PolygonHitbox([
-          Vector2(-0.28, -0.19), // (7,10)
-          Vector2(0.34, -0.19), // (27,10)
-          Vector2(0.46, -0.06), // (31,14)
-          Vector2(0.46, 0), // (31,16)
-          Vector2(0.37, 0.187), // (28,22)
-          Vector2(0.37, 0.34), // (28,27)
-          Vector2(0.1, 0.34), // (19,27)
-          Vector2(-0.09, 0.12), // (13,20)
-          Vector2(-0.28, 0.12), // (7,20)
-        ])..collisionType = CollisionType.passive
-          ..debugMode = true);
-
-
-        // hitBox: bird's head
-        add(PolygonHitbox([
-          Vector2(-0.12, -0.18), // (12,10)
-          Vector2(-0.12, -0.25), // (12,8)
-          Vector2(0, -0.34), // (16,5)
-          Vector2(0.19, -0.34), // (22,5)
-          Vector2(0.25, -0.31), // (24,6)
-          Vector2(0.34, -0.19), // (17,10)
-        ])..collisionType = CollisionType.passive
-          ..debugMode = true);
+        // // bird's hitBox
+        add( RectangleHitbox.relative(
+          Vector2(1.8, 0.80), // % of w & h relative to the size of the character
+          parentSize: size,
+          position: Vector2(0, 20), // position the hitBox in the sprite sheet
+          )
+        );
         break;
     }
-    debugMode = true;
 
     animation = flyAnimation; // initial animation
 

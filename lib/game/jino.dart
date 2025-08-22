@@ -127,8 +127,6 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
       position: Vector2(50, 80), // position the hitBox in the sprite sheet
     );
     add(hitBox);
-    debugMode = true;
-
 
     originalY = y; // Initial value for returning to ground
   }
