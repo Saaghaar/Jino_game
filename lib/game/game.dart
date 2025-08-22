@@ -111,12 +111,30 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     add(difficultyManager);
   }
 
+  // set action for standing after crawl
+  String? currentAction;
+
   // set jumping movement (when user swipes up)
   @override
   void onPanUpdate(DragUpdateInfo info) {
+    // swipe up
     if (info.delta.global.y < -5) {
       _jino.jump();
+      currentAction = "jump";
     }
+    // swipe down
+    else if (info.delta.global.y > 5) {
+      _jino.crawl();
+      currentAction = "crawl";
+    }
+  }
+
+  @override
+  void onPanEnd(DragEndInfo info) {
+    if (currentAction == "crawl") {
+      _jino.run(); // فقط وقتی از خزیدن بیاد
+    }
+    currentAction = "run";
   }
 
   @override

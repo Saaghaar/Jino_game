@@ -16,6 +16,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   late SpriteAnimation jumpAnimation;
   late SpriteAnimation hitAnimation;
   late SpriteAnimation deathAnimation;
+  late SpriteAnimation crawlAnimation;
 
   // variables for jumping
   bool isJumping = false;
@@ -28,6 +29,7 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   double hitCooldown = 0; // time remaining until next collision permission
   final double hitDelay = 0.5; // collision timer
   bool shouldPlayHitOnLand = false; // flag for hitting on air
+  late RectangleHitbox hitBox;
 
   // access to JinoGame class
   late JinoGame gameRef;
@@ -89,7 +91,14 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     deathAnimation = deathSheet.createAnimation(
         row: 0, stepTime: 0.1);
 
-
+    // Load crawl animation
+    final crawlImage = await game.images.load('Ducky/crawl.png');
+    final crawlSheet = SpriteSheet(
+      image: crawlImage,
+      srcSize: Vector2(64, 64),
+    );
+    crawlAnimation = crawlSheet.createAnimation(
+        row: 0, from: 0, to: 3, stepTime: 0.1);
 
     // Create character and position it
     animation = runAnimation;
@@ -110,13 +119,17 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
         game.size.y - groundHeight - characterHeight,
     );
 
+
     // add hitBox to the character sprite sheet
-    add(RectangleHitbox.relative(
+    hitBox = RectangleHitbox.relative(
       Vector2(0.31, 0.24), // % of w & h relative to the size of the character
       parentSize: size,
       position: Vector2(50, 80), // position the hitBox in the sprite sheet
-    ));
+    );
+    add(hitBox);
     debugMode = true;
+
+
     originalY = y; // Initial value for returning to ground
   }
 
@@ -226,6 +239,23 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   void playDeathAnimation() {
     animation = deathAnimation;
   }
+
+  // player movement: Crawl
+  void crawl() {
+    if (animation != crawlAnimation) {
+      animation = crawlAnimation;
+      hitBox.position = Vector2(50, 100);
+    }
+  }
+
+  // player movement: Run
+  void run(){
+    if (animation != runAnimation) {
+      animation = runAnimation;
+      hitBox.position = Vector2(50, 80);
+    }
+  }
+
 
 }
 
