@@ -4,12 +4,14 @@ import 'package:flame_audio/flame_audio.dart';
 
 class GameOverMenu extends StatelessWidget {
   final int score;
+  final int bestScore;
   final JinoGame game;
 
   const GameOverMenu({
     super.key,
     required this.score,
-    required this.game
+    required this.bestScore,
+    required this.game,
   });
 
   @override
@@ -44,6 +46,17 @@ class GameOverMenu extends StatelessWidget {
                   fontSize: 24,
                   color: Colors.white,
                   fontFamily: 'Feast Of Flesh',
+              ),
+            ),
+
+            // show best score
+            const SizedBox(height: 16),
+            Text(
+              'Best Score: $bestScore',
+              style: const TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+                fontFamily: 'Feast Of Flesh',
               ),
             ),
 

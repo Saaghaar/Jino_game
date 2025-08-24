@@ -23,6 +23,7 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
   // variables for scoring
   int score = 0;
+  int bestScore = 0;
   late ScoreManager scoreManager;
   double timeSinceLastScore = 0;
 
@@ -194,6 +195,11 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     scoreManager.finalScores(); // save final score
     FlameAudio.bgm.stop(); // stop bg music
     pauseEngine(); // pause the game
+
+    if (scoreManager.finalScore > bestScore) {
+      bestScore = scoreManager.finalScore;
+    }
+
     overlays.add('GameOverMenu');
     FlameAudio.play('game over.wav');
   }

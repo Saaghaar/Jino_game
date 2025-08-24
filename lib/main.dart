@@ -47,7 +47,9 @@ MyApp()
             ),
 
         'GameOverMenu': (context, game) =>
-            GameOverMenu(game: (game as JinoGame), score: (game.scoreManager.finalScore),
+            GameOverMenu(game: (game as JinoGame),
+                        score: (game.scoreManager.finalScore),
+                        bestScore: (game.bestScore),
             ),
 
 
