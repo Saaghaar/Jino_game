@@ -242,14 +242,22 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   void crawl() {
     if (animation != crawlAnimation) {
       animation = crawlAnimation;
+      // change hitBox position according to character's movement
       hitBox.position = Vector2(50, 100);
     }
+    // stop crawling ang start running after 600 ms
+    Future.delayed(const Duration(milliseconds: 600), () {
+      if (animation == crawlAnimation) {
+        run();
+      }
+    });
   }
 
   // player movement: Run
   void run(){
     if (animation != runAnimation) {
       animation = runAnimation;
+      // change hitBox position according to character's movement
       hitBox.position = Vector2(50, 80);
     }
   }
