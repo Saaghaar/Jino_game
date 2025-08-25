@@ -104,7 +104,9 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
     _jino = Jino(  onHit: () {
       decreaseHealth();
-    },)
+    },
+      difficultyManager: difficultyManager,
+    )
     ..gameRef = this;
     add(_jino);
 

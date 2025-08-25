@@ -8,7 +8,7 @@ import 'package:runner_test1/game/flying_enemy.dart';
 
 import 'package:runner_test1/game/game.dart'; // importing the game file
 import 'package:runner_test1/game/enemy.dart';
-
+import 'package:runner_test1/game/difficulty_manager.dart';
 
 class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, TapCallbacks, CollisionCallbacks{
 
@@ -18,10 +18,12 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
   late SpriteAnimation deathAnimation;
   late SpriteAnimation crawlAnimation;
 
+  final DifficultyManager difficultyManager;
+
   // variables for jumping
   bool isJumping = false;
   double jumpSpeed = -600;
-  double gravity = 1500;
+  double gravity = 1300;
   late double originalY;
 
   // variables for being hit
@@ -40,7 +42,9 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
 
   Jino({
     required this.onHit,
-  }) : super(size: Vector2(64, 64)); //set the initial size of the character
+    DifficultyManager ? difficultyManager,
+  }) : difficultyManager = difficultyManager ?? DifficultyManager(),
+       super(size: Vector2(64, 64)); //set the initial size of the character
 
   @override
   Future<void> onLoad() async {
@@ -178,6 +182,12 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
         animation = runAnimation;
       });
     }
+
+    // optimize jumping according to game speed(score)
+    if (difficultyManager.score > 50){
+      gravity = 1500;
+    };
+
   }
 
   @override
@@ -245,12 +255,20 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
       // change hitBox position according to character's movement
       hitBox.position = Vector2(50, 100);
     }
-    // stop crawling ang start running after 600 ms
-    Future.delayed(const Duration(milliseconds: 600), () {
-      if (animation == crawlAnimation) {
-        run();
-      }
-    });
+    // stop crawling ang start running according to game speed(score)
+    if (difficultyManager.score <= 100){
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (animation == crawlAnimation) {
+          run();
+        }
+      });
+    } else {
+      Future.delayed(const Duration(milliseconds: 600), () {
+        if (animation == crawlAnimation) {
+          run();
+        }
+      });
+    }
   }
 
   // player movement: Run
