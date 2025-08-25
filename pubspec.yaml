@@ -61,8 +61,6 @@ flutter_icons:
 flutter:
     assets:
 #    - assets/images/Ducky/
-    - assets/images/Ducky/idle.gif
-    - assets/images/Ducky/idle.png
     - assets/images/Ducky/jump.png
     - assets/images/Ducky/run.png
     - assets/images/Ducky/hit.png
