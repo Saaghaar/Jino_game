@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _loadCharacter() async {
-    final mySprite = await Sprite.load('Ducky/idle.png');
+    final mySprite = await Sprite.load('Ducky/idle.gif');
 
     var jinoSprite = SpriteComponent(
       sprite: mySprite,

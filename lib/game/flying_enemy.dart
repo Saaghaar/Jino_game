@@ -47,14 +47,14 @@ class FlyingEnemy extends SpriteAnimationComponent with HasGameReference<JinoGam
 
     animation = flyAnimation; // initial animation
 
-    // enemy's size
-    size = Vector2(game.size.x /12 , game.size.x /12);
-
     const groundImageHeight = 1080; // the height of the ground picture
     const realGroundHeight = 80;// the real ground height
 
     final groundRatio = realGroundHeight / groundImageHeight;
     final groundHeight = game.size.y * groundRatio;
+
+    // enemy's size
+    size = Vector2(game.size.x /12 , game.size.x /12);
 
     // enemy's position
     position = Vector2(

@@ -11,7 +11,7 @@ class DifficultyManager extends Component {
   double lastScoreCheckpoint = 0;
 
   // enemy's animation speed based on score (100 score == +1 speed animation)
-  double get speedFactor => (1.0 + (score / 100)).clamp(1.0, 2.5);
+  double get speedFactor => (1.0 + (score / 100)).clamp(1.0, 3.5);
 
   // DifficultyManager();
 
@@ -19,11 +19,11 @@ class DifficultyManager extends Component {
     score = currentScore;
 
     // increasing score == increasing difficulty
-    baseSpeed = 200 + (score * 1.5);         //enemies
+    baseSpeed = 200 + (score * 1.3);         //enemies
     backgroundSpeed = 20 + (score * 0.1);    //background
 
     // Limiting top speed for better control
-    baseSpeed = baseSpeed.clamp(200, 500);
+    baseSpeed = baseSpeed.clamp(200, 800);
     backgroundSpeed = backgroundSpeed.clamp(20, 80);
 
     // increase bg music each 100 point

@@ -280,8 +280,4 @@ class Jino extends SpriteAnimationComponent with HasGameReference<JinoGame>, Tap
     }
   }
 
-
 }
-
-
-

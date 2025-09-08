@@ -46,14 +46,16 @@ class Enemy extends SpriteAnimationComponent with HasGameReference<JinoGame>, Co
 
     animation = runAnimation; // initial animation
 
-    // enemy's size
-    size = Vector2(game.size.x /10 , game.size.x /10);
+
 
     const groundImageHeight = 1080; // the height of the ground picture
     const realGroundHeight = 80;// the real ground height
 
     final groundRatio = realGroundHeight / groundImageHeight;
     final groundHeight = game.size.y * groundRatio;
+
+    // enemy's size
+    size = Vector2(game.size.x /10 , game.size.x /10);
 
     // enemy's position
     position = Vector2(
