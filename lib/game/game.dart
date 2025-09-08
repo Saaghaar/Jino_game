@@ -4,9 +4,11 @@ import 'package:flame/parallax.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'dart:math'; // for random func
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:runner_test1/game/jino.dart';
 import 'package:runner_test1/game/enemy.dart';
+import 'package:runner_test1/game/flying_enemy.dart';
 import 'package:runner_test1/game/score_manager.dart';
 import 'package:runner_test1/game/difficulty_manager.dart';
 
@@ -21,26 +23,12 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
   // variables for scoring
   int score = 0;
+  int bestScore = 0;
   late ScoreManager scoreManager;
   double timeSinceLastScore = 0;
 
   // number of hearts
   int health = 3;
-
-  void decreaseHealth() {
-    if (health > 0) {
-      health--;
-
-      // if (health == 0) {
-      //   // اینجا کاراکتر بمیره یا گیم اور شه
-      // }
-
-      // updating the widgets
-      overlays.remove('HeartDisplay');
-      overlays.add('HeartDisplay');
-    }
-  }
-
 
   // variables for manage difficulty
   late DifficultyManager difficultyManager;
@@ -63,8 +51,18 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
         period: finalDelay,
         repeat: false,
         onTick: () {
-          final type = 1 + random.nextInt(3);
-          add(Enemy(type));
+          // random number 0-1
+          final chance = random.nextInt(2);
+
+          if (chance == 0){
+            // create enemy
+            final type = 1 + random.nextInt(3);
+            add(Enemy(type));
+          } else {
+            // create flying enemy
+            final type = 1 + random.nextInt(2);
+            add(FlyingEnemy(type));
+          }
 
           // create new timer
           spawnEnemyWithRandomDelay();
@@ -77,8 +75,9 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
   @override
   Future<void> onLoad() async {
     difficultyManager = DifficultyManager();
-
     await super.onLoad();
+
+    pauseEngine(); //it is paused till pressed the play button
 
     // add enemy
     spawnEnemyWithRandomDelay();
@@ -87,10 +86,10 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     _parallax = await loadParallaxComponent(
     [
       ParallaxImageData('parallax/layer_sky.png'),
-      ParallaxImageData('parallax/layer_cake.png'),
       ParallaxImageData('parallax/layer_clouds.png'),
       ParallaxImageData('parallax/layer_rocks.png'),
       ParallaxImageData('parallax/layer_trees.png'),
+      ParallaxImageData('parallax/layer_cake.png'),
       ParallaxImageData('parallax/layer_ground.png'),
     ],
       baseVelocity: Vector2(20, 0), // movement speed
@@ -105,26 +104,29 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
 
     _jino = Jino(  onHit: () {
       decreaseHealth();
-    },)
+    },
+      difficultyManager: difficultyManager,
+    )
     ..gameRef = this;
     add(_jino);
 
     // adding difficulty
-    difficultyManager = DifficultyManager();
     add(difficultyManager);
-
-    // add pause button
-    overlays.add('PauseButton');
-
-    // add hearts
-    overlays.add('HeartDisplay');
   }
+
+  // set action for standing after crawl
+  String? currentAction;
 
   // set jumping movement (when user swipes up)
   @override
   void onPanUpdate(DragUpdateInfo info) {
+    // swipe up
     if (info.delta.global.y < -5) {
       _jino.jump();
+    }
+    // swipe down
+    else if (info.delta.global.y > 5) {
+      _jino.crawl();
     }
   }
 
@@ -156,23 +158,15 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     // Remove all game components(such as enemies and points)
     removeAll(children.toList());
 
-    // Delete previous character
-    if (_jino != null) {
-      remove(_jino);
-    }
-
     // reset score
     scoreManager = ScoreManager(size);
     add(scoreManager);
 
-    // reset speed values
-    difficultyManager.reset();
+    difficultyManager.reset(); // reset speed values
 
-    // reset health
-    health = 3;
+    health = 3; // reset health
 
-    // add background again
-    add(_parallax);
+    add(_parallax); // add background again
 
     _jino.removeFromParent();
     _jino = Jino(onHit: () {decreaseHealth();},);
@@ -181,6 +175,35 @@ class JinoGame extends FlameGame with HasCollisionDetection, PanDetector{
     spawnEnemyWithRandomDelay();
 
     resumeEngine();
+  }
+
+  void decreaseHealth() {
+    if (health > 0) {
+      health--;
+
+      // if the character die
+      if (health <= 0) {
+        _jino.playDeathAnimation();
+        gameOver();
+      }
+
+      // updating the widgets
+      overlays.remove('HeartDisplay');
+      overlays.add('HeartDisplay');
+    }
+  }
+
+  void gameOver (){
+    scoreManager.finalScores(); // save final score
+    FlameAudio.bgm.stop(); // stop bg music
+    pauseEngine(); // pause the game
+
+    if (scoreManager.finalScore > bestScore) {
+      bestScore = scoreManager.finalScore;
+    }
+
+    overlays.add('GameOverMenu');
+    FlameAudio.play('game over.wav');
   }
 
 }

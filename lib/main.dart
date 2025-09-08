@@ -2,11 +2,14 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:runner_test1/game/game.dart';
 import 'package:runner_test1/widget/pause_button_widget.dart';
 import 'package:runner_test1/widget/pause_menu_widget.dart';
 import 'package:runner_test1/widget/heart_display_widget.dart';
+import 'package:runner_test1/widget/gameOver_menu_widget.dart';
+import 'package:runner_test1/screens/main_menu.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,14 +23,39 @@ MyApp()
     GameWidget(
       game: JinoGame(),
       overlayBuilderMap: {
+        'MainMenu': (context, game) =>
+            MainMenu(onPlay: () {
+              (game as JinoGame).overlays.remove('MainMenu');
+              game.overlays.remove('MainMenu');
+              game.overlays.add('HeartDisplay'); // add after play
+              game.overlays.add('PauseButton');  // add after play
+              game.resumeEngine(); // start the game
+
+              FlameAudio.bgm.initialize();
+              FlameAudio.bgm.play('bgm.wav');
+            },
+            ),
+
         'PauseButton': (context, game) =>
             PauseButtonWidget(game: game as JinoGame),
+
         'PauseMenu': (context, game) =>
             PauseMenuWidget(game: game as JinoGame),
+
         'HeartDisplay': (context, game) =>
-            HeartDisplayWidget(currentHealth: (game as JinoGame).health, ),
+            HeartDisplayWidget(currentHealth: (game as JinoGame).health,
+            ),
+
+        'GameOverMenu': (context, game) =>
+            GameOverMenu(game: (game as JinoGame),
+                        score: (game.scoreManager.finalScore),
+                        bestScore: (game.bestScore),
+            ),
+
+
 
       },
+      initialActiveOverlays: const ['MainMenu'], // the first overlay that shows
     ),
 
   );
@@ -73,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _loadCharacter() async {
-    final mySprite = await Sprite.load('idle.gif');
+    final mySprite = await Sprite.load('Ducky/idle.gif');
 
     var jinoSprite = SpriteComponent(
       sprite: mySprite,

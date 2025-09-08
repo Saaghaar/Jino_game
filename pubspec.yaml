@@ -31,15 +31,22 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
+  flame_audio: ^2.11.8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flame: ^1.28.1
+  rename: ^3.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.10.0
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -54,16 +61,33 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
     assets:
-#    - assets/images/
+#    - assets/images/Ducky/
     - assets/images/Ducky/idle.png
     - assets/images/Ducky/jump.png
     - assets/images/Ducky/run.png
     - assets/images/Ducky/hit.png
+    - assets/images/Ducky/death.png
+    - assets/images/Ducky/crawl.png
 
+#    - assets/images/Monster_Dude/
     - assets/images/Monster_Dude/Run.png
-    - assets/images/Monster_Owlet/Run.png
-    - assets/images/Monster_Pink/Run.png
+    - assets/images/Monster_Dude/Attack.png
 
+#    - assets/images/Monster_Owlet/
+    - assets/images/Monster_Owlet/Run.png
+    - assets/images/Monster_Owlet/Attack.png
+
+#    - assets/images/Monster_Pink/
+    - assets/images/Monster_Pink/Run.png
+    - assets/images/Monster_Pink/Attack.png
+
+#    - assets/images/Monster_Bat/
+    - assets/images/Monster_Bat/Flying.png
+
+#    - assets/images/Monster_Bird/
+    - assets/images/Monster_Bird/Flying.png
+
+#    - assets/icons/
     - assets/icons/pause.svg
     - assets/icons/heart_broken.svg
     - assets/icons/heart_full.svg
@@ -75,15 +99,20 @@ flutter:
     - assets/images/parallax/layer_ground.png
     - assets/images/parallax/layer_clouds.png
     - assets/images/parallax/layer_cake.png
+    - assets/images/parallax/main_menu.png
+
+#    - assets/audio/
+    - assets/audio/hit.wav
+    - assets/audio/jump.wav
+    - assets/audio/select.wav
+    - assets/audio/bgm.wav
+    - assets/audio/game over.wav
 
 
     fonts:
      - family: Feast Of Flesh
        fonts:
          - asset: assets/fonts/Feast Of Flesh.ttf
-
-#    - assets/audio/
-    # - assets/tiles/level.tmx
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

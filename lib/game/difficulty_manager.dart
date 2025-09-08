@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class DifficultyManager extends Component {
 
@@ -6,21 +7,39 @@ class DifficultyManager extends Component {
   double backgroundSpeed = 20;    // Initial speed of background
   double score = 0;
 
-  // enemy's animation speed based on score (100 score == +1 speed animation)
-  double get speedFactor => (1.0 + (score / 100)).clamp(1.0, 2.5);
+  double musicRate = 1.0;
+  double lastScoreCheckpoint = 0;
 
-  DifficultyManager();
+  // enemy's animation speed based on score (100 score == +1 speed animation)
+  double get speedFactor => (1.0 + (score / 100)).clamp(1.0, 3.5);
+
+  // DifficultyManager();
 
   void updateDifficulty(double currentScore) {
     score = currentScore;
 
     // increasing score == increasing difficulty
-    baseSpeed = 200 + (score * 1.5);         //enemies
+    baseSpeed = 200 + (score * 1.3);         //enemies
     backgroundSpeed = 20 + (score * 0.1);    //background
 
     // Limiting top speed for better control
-    baseSpeed = baseSpeed.clamp(200, 500);
+    baseSpeed = baseSpeed.clamp(200, 800);
     backgroundSpeed = backgroundSpeed.clamp(20, 80);
+
+    // increase bg music each 100 point
+    if (score - lastScoreCheckpoint >= 100) {
+        lastScoreCheckpoint = score;
+        increaseMusicSpeed();
+    }
+  }
+
+  // increasing bg music speed
+  void increaseMusicSpeed() {
+    if (musicRate < 1.6) {
+      musicRate += 0.05;
+      final bgmPlayer = FlameAudio.bgm.audioPlayer;
+      bgmPlayer.setPlaybackRate(musicRate);
+    }
   }
 
   double get spawnInterval {
@@ -32,6 +51,12 @@ class DifficultyManager extends Component {
     baseSpeed = 200;
     backgroundSpeed = 20;
     score = 0;
+    lastScoreCheckpoint = 0;
+    musicRate = 1.0;
+
+    // restart bg music speed
+    final bgmPlayer = FlameAudio.bgm.audioPlayer;
+    bgmPlayer.setPlaybackRate(musicRate);
   }
 
 }
